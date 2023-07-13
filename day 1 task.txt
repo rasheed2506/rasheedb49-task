@@ -1,0 +1,25 @@
+difference between http:1.1 and Http 2
+
+
+
+http-1.1
+
+1)the first usable version of http was created in 1997
+2)this version made things fatser by allowing the computer to reuse the information 
+3)it stores in cache memory 
+
+http-2
+
+1)it was created in 2015 
+2)send recive more information at the same time
+3)one of the way in wich http?2 is faster is n how it prioritizes content during the loading process
+
+
+2)
+write a blog about object and its internal representation in javascript
+
+object in java script is its most important data type and forms the building block for modern java script
+there are 2type
+1)primitive
+2)non primitive
+eg(number,string,boolean,undefined,symbol)
