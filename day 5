@@ -1,0 +1,60 @@
+var message="orderplaced";
+function task(status){
+  if(status){
+    console.log(message);           //block scope function scope let&const is block scope var is local scope
+    
+  }else{
+    console.log("not");
+  }
+
+};
+
+task(true);
+
+
+
+
+function number(a,b,c){
+    return a+b+c;
+  }
+  var arr=[10,20,30];
+  var res=number(...arr);
+  console.log(res);
+
+  
+  function add(...arr){
+    var sum=0;
+    for(i=0;i< arr.lenght;i++){
+      sum +=arr[i];                // rest parameter
+    }
+    return sum;
+  }
+  
+  var res=add(1,2,3,4);
+  console.log(res);
+
+
+
+  // for (let i = 1; i <= 10; i++) {
+//     console.log(i);                    //forloop
+//   }
+  
+// const person = {name:"rasheed",dob:25062001, age:22};
+
+// let text = "";
+// for (let x in person) {                                    //for in loop doubt= how to diplay key name and key value 
+//   text +=person[x];
+//   console.log(text);
+// }
+
+// const person = ["rasheed","narine","harrish","karthick"];
+// let text ="";
+// for(let x of person){                                            // for of loop
+//   text+= "<br>"+ x;
+//   console.log(text);
+// }
+
+// const person = ["rasheed","narine","harrish","karthick"];       //foreach
+// let res =person.forEach((n,i,a)=>{
+//   console.log(n,i,a);
+// });
