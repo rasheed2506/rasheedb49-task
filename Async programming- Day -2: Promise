@@ -1,0 +1,80 @@
+Async programming- Day -2: Promise
+
+html code index.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>Country Information</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="row" id="cardContainer"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+
+
+java script codee 
+
+// script.js
+
+document.addEventListener('DOMContentLoaded', function () {
+    const cardContainer = document.getElementById('cardContainer');
+
+    // Replace 'YOUR_REST_COUNTRIES_API_KEY' and 'YOUR_OPENWEATHERMAP_API_KEY' with your actual API keys
+    const restCountriesApiKey = 'YOUR_REST_COUNTRIES_API_KEY';
+    const openWeatherMapApiKey = 'YOUR_OPENWEATHERMAP_API_KEY';
+
+    // Fetch data from Rest Countries API
+    fetch('https://restcountries.com/v3.1/all')
+        .then(response => response.json())
+        .then(countries => {
+            countries.forEach(country => {
+                const card = createCard(country);
+                cardContainer.appendChild(card);
+
+                // Fetch weather data from OpenWeatherMap API
+                fetch(`https://api.openweathermap.org/data/2.5/weather?q=${country.name.common}&appid=${openWeatherMapApiKey}`)
+                    .then(response => response.json())
+                    .then(weatherData => {
+                        updateCardWithWeather(card, weatherData);
+                    })
+                    .catch(error => console.error('Error fetching weather data:', error));
+            });
+        })
+        .catch(error => console.error('Error fetching country data:', error));
+
+    function createCard(country) {
+        const card = document.createElement('div');
+        card.className = 'col-md-4 mb-4';
+
+        card.innerHTML = `
+            <div class="card">
+                <img src="${country.flags.png}" class="card-img-top" alt="Flag">
+                <div class="card-body">
+                    <h5 class="card-title">${country.name.common}</h5>
+                    <p class="card-text">Capital: ${country.capital}</p>
+                    <p class="card-text">Region: ${country.region}</p>
+                    <p class="card-text">Latlng: ${country.latlng.join(', ')}</p>
+                    <p class="card-text">Country Code: ${country.cca2}</p>
+                </div>
+            </div>
+        `;
+
+        return card;
+    }
+
+    function updateCardWithWeather(card, weatherData) {
+        const weatherInfo = document.createElement('p');
+        weatherInfo.className = 'card-text';
+        weatherInfo.innerHTML = `Temperature: ${weatherData.main.temp}&deg;C, Weather: ${weatherData.weather[0].description}`;
+        card.querySelector('.card-body').appendChild(weatherInfo);
+    }
+});
