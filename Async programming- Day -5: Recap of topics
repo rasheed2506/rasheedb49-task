@@ -94,3 +94,99 @@ document.addEventListener('DOMContentLoaded', function () {
         return card;
     }
 });
+
+
+api 2
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <title>Posts Data Display</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Posts Data</h1>
+
+        <div id="postsDataContainer" class="row"></div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+}
+
+.container {
+    max-width: 800px;
+}
+
+.card {
+    margin: 10px;
+}
+
+.post-details {
+    list-style: none;
+    padding: 0;
+}
+
+.post-details li {
+    margin-bottom: 5px;
+}
+
+// script.js
+
+document.addEventListener('DOMContentLoaded', function () {
+    const postsDataContainer = document.getElementById('postsDataContainer');
+
+    // Function to fetch data using Promise
+    function fetchData(url) {
+        return new Promise((resolve, reject) => {
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! Status: ${response.status}`);
+                    }
+                    return response.json();
+                })
+                .then(data => resolve(data))
+                .catch(error => reject(error));
+        });
+    }
+
+    // Fetch posts data from JSONPlaceholder API
+    fetchData('https://jsonplaceholder.typicode.com/posts')
+        .then(posts => {
+            posts.forEach(post => {
+                const card = createPostCard(post);
+                postsDataContainer.appendChild(card);
+            });
+        })
+        .catch(error => console.error('Error fetching posts data:', error));
+
+    // Function to create Bootstrap card for posts data
+    function createPostCard(post) {
+        const card = document.createElement('div');
+        card.className = 'card col-md-4';
+
+        card.innerHTML = `
+            <div class="card-body">
+                <h5 class="card-title">${post.title}</h5>
+                <p class="card-text">${post.body}</p>
+                <ul class="post-details">
+                    <li><strong>User ID:</strong> ${post.userId}</li>
+                    <li><strong>Post ID:</strong> ${post.id}</li>
+                </ul>
+            </div>
+        `;
+
+        return card;
+    }
+});
